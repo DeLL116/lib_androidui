@@ -119,7 +119,7 @@ class ImageLoadingLayout : RelativeLayout {
         }
     }
 
-    fun loadNetworkImage(pathSegmentIdentifier: PathSegmentModifier) {
+    fun loadNetworkImage(pathSegmentIdentifier: PathSegmentModifier?) {
         resetNetworkImage()
         image_loading_layout_network_image_view.loadNetworkImageWithPathSegmentModifier(
             pathSegmentIdentifier,

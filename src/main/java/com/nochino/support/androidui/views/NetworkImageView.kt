@@ -8,7 +8,19 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
 
-class NetworkImageView: ImageView {
+class NetworkImageView: ImageView, PathSegmentProvider {
+
+    // Doing this will create a map when height and width is 0 (View isn't initialized yet)
+    // Use it to write a test
+//    override val map: Map<String, String> = mapOf(
+//                PathSegmentModifier.widthPathSegment to width.toString(),
+//                PathSegmentModifier.heightPathSegment to height.toString()
+//            )
+
+
+    // Must be initialized in onAttachedToWindow in a custom view!
+    override lateinit var moddedSegmentsMap: Map<String, String>
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -44,14 +56,26 @@ class NetworkImageView: ImageView {
         if (target != null) currentRequest?.into(target) else currentRequest?.into(this)
     }
 
-    fun loadNetworkImageWithPathSegmentModifier(pathSegmentModifier: PathSegmentModifier, target: Target) {
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        changed.let {
+            // This map must be initialized in onLayout so the width and the height
+            // of the *drawn* view can be derived!
+            moddedSegmentsMap = mapOf(
+                PathSegmentModifier.widthPathSegment to width.toString(),
+                PathSegmentModifier.heightPathSegment to height.toString()
+            )
+        }
+    }
 
-        val widthHeightModifier = mapOf(
-            PathSegmentModifier.widthPathSegment to width.toString(),
-            PathSegmentModifier.heightPathSegment to height.toString()
-        )
+    fun loadNetworkImageWithPathSegmentModifier(pathSegmentModifier: PathSegmentModifier?, target: Target) {
 
-        this.networkImageUrl = pathSegmentModifier.getModdedSegmentsUrl(widthHeightModifier)
+        this.networkImageUrl = pathSegmentModifier?.getModdedSegmentsUrl(moddedSegmentsMap)
+
+        // TODO :: Write Test when height and/or width is 0
+        // ---> Comment-out the initialization of the moddedSegmentsMap in onLayout
+        // ---> Initialize the map in class variable (commented-out above)
+
         this.networkImageUrl?.let { loadNetworkImage(it, target) }
     }
 

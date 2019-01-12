@@ -2,6 +2,17 @@ package com.nochino.support.androidui.views
 
 import timber.log.Timber
 
+interface PathSegmentable {
+    //<Key = URI, Value = Modifier>
+    val pathSegmentsMap: Map<String, PathSegmentModifier>
+    fun getPathSegmentModifier(pathString: String): PathSegmentModifier?
+}
+
+interface PathSegmentProvider {
+    // <Key = URI, ReplacementValue>
+    val moddedSegmentsMap: Map<String, String>
+}
+
 class PathSegmentModifier(private val url: String?, private val pathSegments: Map<String, String>) {
 
     // Defines the path segments in a URL that can be replaced

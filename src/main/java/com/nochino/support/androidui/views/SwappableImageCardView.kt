@@ -78,7 +78,7 @@ class SwappableImageCardView : CardView {
         }
     }
 
-    fun loadNetworkImage(pathSegmentIdentifier: PathSegmentModifier) {
+    fun loadNetworkImage(pathSegmentIdentifier: PathSegmentModifier?) {
         post {
             card_image_loading_layout.loadNetworkImage(pathSegmentIdentifier)
         }
