@@ -3,8 +3,16 @@ package com.nochino.support.androidui.views
 import timber.log.Timber
 
 interface PathSegmentable {
+
+    /**
+     * Defines the URIs that have a modifiable path segment
+     */
     //<Key = URI, Value = Modifier>
     val pathSegmentsMap: Map<String, PathSegmentModifier>
+
+    /**
+     * Defines the contract to retrieve the [PathSegmentModifier]
+     */
     fun getPathSegmentModifier(pathString: String): PathSegmentModifier?
 }
 
