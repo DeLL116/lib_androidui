@@ -1,0 +1,11 @@
+<resources>
+    <declare-styleable name="ImageLoadingLayout">
+        <!-- Define custom XML defined attributes here -->
+        <!-- use app:attributeNameHere to set attributes -->
+        <!-- Must grab these attributes from TypedArray in custom view -->
+        <!--<attr name="exampleString" format="string"/>-->
+        <!--<attr name="exampleDimension" format="dimension"/>-->
+        <!--<attr name="exampleColor" format="color"/>-->
+        <!--<attr name="exampleDrawable" format="color|reference"/>-->
+    </declare-styleable>
+</resources>

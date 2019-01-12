@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="SwappableImageCardView">
+        <attr name="cardOrientation" format="integer"> <!-- Re-uses standard Android orientation attribute def -->
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="cardImageHeight" format="dimension"/>
+        <attr name="cardImageWidth" format="dimension"/>
+    </declare-styleable>
+</resources>

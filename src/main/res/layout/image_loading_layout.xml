@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/image_loading_layout_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:showIn="@layout/swappable_image_card_view">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/image_loading_layout_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"/>
+
+    <com.nochino.support.androidui.views.NetworkImageView
+            android:id="@+id/image_loading_layout_network_image_view"
+            android:layout_width="@dimen/img_square_dimen"
+            android:layout_height="@dimen/img_square_dimen"
+            android:contentDescription="@string/cont_desc_img_thumb"
+            android:visibility="invisible"/>
+
+</RelativeLayout>

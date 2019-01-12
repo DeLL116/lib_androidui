@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -30,4 +32,11 @@ dependencies {
 
     // --> AndroidX (Support)
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // --> Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
