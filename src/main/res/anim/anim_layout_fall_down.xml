@@ -4,4 +4,5 @@
         android:animation="@anim/anim_set_fall_down"
         android:delay="15%"
         android:animationOrder="normal"
+        android:startOffset="@integer/anim_duration_frag"
 />
