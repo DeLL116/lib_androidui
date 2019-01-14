@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph">
+
+    <!--TODO :: See about providing / injecting the nav-graph?!-->
+    <!--
+        Currently, this file creates a dependency in implementing modules to
+        override this xml file and provide its own navigation graph
+        via @+id/nav_graph
+    -->
+
+</navigation>
