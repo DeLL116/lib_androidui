@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.image_loading_layout.view.*
 import kotlinx.android.synthetic.main.swappable_image_card_view.view.*
 
 /**
- * A [CardView] that can be used in 2 different orientations
+ * A [CardView] that can be used in 2 different orientations.
  */
 class SwappableImageCardView : CardView {
 
