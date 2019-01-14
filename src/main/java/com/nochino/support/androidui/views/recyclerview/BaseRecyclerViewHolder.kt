@@ -1,4 +1,4 @@
-package com.nochino.support.androidui.recyclerview
+package com.nochino.support.androidui.views.recyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

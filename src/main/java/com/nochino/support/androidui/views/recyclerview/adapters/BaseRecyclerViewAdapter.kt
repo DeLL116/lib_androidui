@@ -1,4 +1,4 @@
-package com.nochino.support.androidui.recyclerview.adapters
+package com.nochino.support.androidui.views.recyclerview.adapters
 
 import android.content.Context
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.nochino.support.androidui.recyclerview.BaseRecyclerViewClickListener
-import com.nochino.support.androidui.recyclerview.BaseViewHolder
+import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
+import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
 
 
 /**
