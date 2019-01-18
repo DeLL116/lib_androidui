@@ -32,6 +32,7 @@ dependencies {
     api 'androidx.test.espresso:espresso-idling-resource:3.1.1' // Note...uses implementation!
 
     // --> Android Support / UI
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              //ViewModel / LiveData
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'

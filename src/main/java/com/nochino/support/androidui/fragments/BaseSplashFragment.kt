@@ -11,7 +11,7 @@ import com.nochino.support.androidui.R
 /**
  * A simple [Fragment] subclass
  */
-open class BaseSplashFragment : Fragment() {
+open class BaseSplashFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
