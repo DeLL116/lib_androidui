@@ -17,26 +17,29 @@ import timber.log.Timber
 class CountingIdlingResourceViewModel(clazz: Class<Any>) : ViewModel() {
 
     /**
-     * Publicly visible reference to the backing resource [_mIdlingRes]
+     * Publicly visible reference to the backing resource [_mBackingIdlingRes].
+     * See [_mBackingIdlingRes].
      */
     val idlingResource: CountingIdlingResource? by lazy {
         return@lazy if (BuildConfig.DEBUG) {
-            _mIdlingRes
+            _mBackingIdlingRes
         } else {
             null
         }
     }
 
     /**
-     * [CountingIdlingResource] used in instrumentation tests to wait for the provided class
-     * to instruct that it's idle. This object will *always* be null in non-debuggable builds.
+     * Private backing field of [CountingIdlingResource] used in instrumentation tests
+     * to wait for the testing class to report that it's idle and safe for espresso to proceed
+     *
+     * This object will *always* be null in non-debuggable builds.
      *
      * Lazily initialized so it is only constructed when needed (Debug builds) by the implementation tests
      */
     // TODO :: Make instance usage better only for testing (maybe remove from production code entirely?)
     @Suppress("ConstantConditionIf")
     @VisibleForTesting
-    private val _mIdlingRes: CountingIdlingResource? by lazy {
+    private val _mBackingIdlingRes: CountingIdlingResource? by lazy {
         return@lazy if (BuildConfig.DEBUG) {
             // Debuggable build...create the object for testing
             CountingIdlingResource(clazz.simpleName + "::" + clazz.hashCode().toString())
@@ -56,7 +59,7 @@ class CountingIdlingResourceViewModel(clazz: Class<Any>) : ViewModel() {
  *
  * See [https://youtu.be/5qlIPTDE274?t=139]
  */
-class CustomViewModelFactory(private val clazz: Class<Any>) : ViewModelProvider.Factory {
+class CountingIdlingResourceViewModelFactory(private val clazz: Class<Any>) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return CountingIdlingResourceViewModel(clazz) as T

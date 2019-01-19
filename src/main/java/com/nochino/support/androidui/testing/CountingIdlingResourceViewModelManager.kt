@@ -6,7 +6,7 @@ import timber.log.Timber
 class CountingIdlingResourceViewModelManager(clazz: Class<Any>) {
 
     private val countingIdlingResourceViewModel: CountingIdlingResourceViewModel? by lazy {
-        return@lazy CustomViewModelFactory(clazz.javaClass)
+        return@lazy CountingIdlingResourceViewModelFactory(clazz.javaClass)
             .create(CountingIdlingResourceViewModel::class.java)
     }
 
