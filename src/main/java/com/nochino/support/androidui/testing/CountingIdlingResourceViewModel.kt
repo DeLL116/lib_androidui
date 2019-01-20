@@ -1,6 +1,8 @@
 package com.nochino.support.androidui.testing
 
 import androidx.annotation.VisibleForTesting
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.nochino.support.androidui.BuildConfig
@@ -51,6 +53,27 @@ class CountingIdlingResourceViewModel(clazz: Class<Any>) : ViewModel() {
             Timber.i("idlingResource created = %s", it != null)
         }
     }
+
+    /**
+     * Decrements the idling resource counter, never letting it decrement
+     * while it's idle
+     */
+    fun decrementIdleResourceCounter() {
+        _mBackingIdlingRes?.let {
+            if (!it.isIdleNow) {
+                it.decrement()
+            } else {
+                Timber.d("Trying to decrementIdleResourceCounter an idle counter! Execution halted!")
+            }
+        }
+    }
+
+    /**
+     * Increments the idling resource counter
+     */
+    fun incrementTestIdleResourceCounter() {
+        _mBackingIdlingRes?.increment()
+    }
 }
 
 /**
@@ -60,6 +83,25 @@ class CountingIdlingResourceViewModel(clazz: Class<Any>) : ViewModel() {
  * See [https://youtu.be/5qlIPTDE274?t=139]
  */
 class CountingIdlingResourceViewModelFactory(private val clazz: Class<Any>) : ViewModelProvider.Factory {
+
+    /**
+     * Convenience companion object to create a [CountingIdlingResourceViewModel]
+     * from an Activity or Fragment
+     */
+    companion object {
+        fun getFragmentViewModel(fragment: Fragment): CountingIdlingResourceViewModel {
+            return ViewModelProviders
+                .of(fragment, CountingIdlingResourceViewModelFactory(fragment.javaClass))
+                .get(CountingIdlingResourceViewModel::class.java)
+        }
+
+        fun getActivityViewModel(fragmentActivity: FragmentActivity): CountingIdlingResourceViewModel {
+            return ViewModelProviders
+                .of(fragmentActivity, CountingIdlingResourceViewModelFactory(fragmentActivity.javaClass))
+                .get(CountingIdlingResourceViewModel::class.java)
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CountingIdlingResourceViewModel(clazz) as T

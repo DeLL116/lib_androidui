@@ -3,17 +3,16 @@ package com.nochino.support.androidui.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.nochino.support.androidui.BuildConfig
-import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelManager
+import com.nochino.support.androidui.testing.CountingIdlingResourceViewModel
+import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
 
 abstract class BaseActivity : AppCompatActivity() {
 
     // TODO :: Move to "Staging Debug" Flavor class variant (don't keep in production code)!
-    companion object {
-        val activityViewModelIdlingResource: CountingIdlingResourceViewModelManager? by lazy {
-            when (BuildConfig.DEBUG) {
-                true -> CountingIdlingResourceViewModelManager(this.javaClass)
-                else -> null
-            }
+    val activityViewModelIdlingResource: CountingIdlingResourceViewModel? by lazy {
+        when (BuildConfig.DEBUG) {
+            true -> CountingIdlingResourceViewModelFactory.getActivityViewModel(this)
+            else -> null
         }
     }
 
