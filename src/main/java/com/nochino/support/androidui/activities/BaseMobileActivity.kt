@@ -1,11 +1,4 @@
 package com.nochino.support.androidui.activities
 
-import android.os.Bundle
-
-abstract class BaseMobileActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
-        initView()
-    }
-}
+// Stub for future use (AndroidTV Leanback Activities tend to be much different than mobile Activities)
+abstract class BaseMobileActivity : BaseActivity()

@@ -61,7 +61,7 @@ class CountingIdlingResourceViewModel(clazz: Class<Any>) : ViewModel() {
  */
 class CountingIdlingResourceViewModelFactory(private val clazz: Class<Any>) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CountingIdlingResourceViewModel(clazz) as T
     }
 }

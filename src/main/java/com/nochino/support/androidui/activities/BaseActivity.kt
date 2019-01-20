@@ -1,5 +1,6 @@
 package com.nochino.support.androidui.activities
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.nochino.support.androidui.BuildConfig
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelManager
@@ -14,6 +15,12 @@ abstract class BaseActivity : AppCompatActivity() {
                 else -> null
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(getLayoutId())
+        initView()
     }
 
     /**
