@@ -29,10 +29,25 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    api 'androidx.test.espresso:espresso-idling-resource:3.1.1' // Note...uses implementation!
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
+    api 'androidx.test.espresso:espresso-idling-resource:3.1.1'                         // Note...uses api not testApi!
+
+    // **** These are not duplicates ****
+    // There are classes used for testing in this library
+    // that are used in implementing modules. These test
+    // classes are currently NOT in an androidTest package,
+    // and thus, their APIs must be referenced as a normal
+    // implementations.
+    implementation 'androidx.test:rules:1.1.1'
+    implementation 'androidx.test:runner:1.1.1'
+    implementation 'androidx.test:core-ktx:1.1.0'
+    implementation 'androidx.test.ext:junit:1.1.0'
+    implementation 'androidx.test.ext:junit-ktx:1.1.0'
+    implementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'androidx.test.espresso:espresso-contrib:3.1.1'
 
     // --> Android Support / UI
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              //ViewModel / LiveData
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              // ViewModel / LiveData
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
@@ -46,6 +61,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // --> Square / Jake Wharton
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'                               // Image Loading
+    implementation 'com.jakewharton.timber:timber:4.7.1'                                // Enhanced Logging
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'              // Detecting Memory Leaks
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'      // Detecting Memory Leaks
 }

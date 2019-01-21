@@ -1,0 +1,5 @@
+<resources>
+    <string name="cont_desc_app_logo">Application Logo</string>
+    <string name="cont_desc_img_thumb">Image Thumbnail</string>
+    <string name="cont_desc_img_detail">Image Detail</string>
+</resources>

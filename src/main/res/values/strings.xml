@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">lib_AndroidUI</string>
-    <string name="app_desc">Kotlin</string>
-    <string name="cont_desc_img_thumb">Image Thumbnail</string>
-    <string name="cont_desc_img_detail">Image Detail</string>
+    <string name="app_name">lib_app_name</string>
+    <string name="app_desc">lib_app_desc</string>
 </resources>
