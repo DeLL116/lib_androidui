@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
+
     defaultConfig {
         minSdkVersion 24
         targetSdkVersion 28
@@ -12,10 +13,48 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "store", "api", "device"
+
+    productFlavors {
+        // --> Store Flavor Dimension Types for different app store platforms
+        //     Google = Google Play // Amazon = Amazon App Store
+        google {
+            dimension "store"
+        }
+        amazon {
+            dimension "store"
+        }
+
+        // --> API Flavor Dimension Types for different build platforms
+        //     Prod = Production // Stage = Staging // dev = development
+        prod {
+            dimension "api"
+        }
+        stage {
+            dimension "api"
+        }
+        dev {
+            dimension "api"
+        }
+
+        // --> API Flavor Dimension Types for different device form-factor profiles
+        //     Phone = Mobile Phone // Tablet = a Tablet // TV = 10ft Leanback
+        phone {
+            dimension "device"
+        }
+        tablet {
+            dimension "device"
+        }
+        tv {
+            dimension "device"
         }
     }
 }
@@ -32,19 +71,21 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
     api 'androidx.test.espresso:espresso-idling-resource:3.1.1'                         // Note...uses api not testApi!
 
-    // **** These are not duplicates ****
-    // There are classes used for testing in this library
-    // that are used in implementing modules. These test
-    // classes are currently NOT in an androidTest package,
-    // and thus, their APIs must be referenced as a normal
-    // implementations.
-    implementation 'androidx.test:rules:1.1.1'
-    implementation 'androidx.test:runner:1.1.1'
-    implementation 'androidx.test:core-ktx:1.1.0'
-    implementation 'androidx.test.ext:junit:1.1.0'
-    implementation 'androidx.test.ext:junit-ktx:1.1.0'
-    implementation 'androidx.test.espresso:espresso-core:3.1.1'
-    implementation 'androidx.test.espresso:espresso-contrib:3.1.1'
+    // **** The following are not duplicates, but rather a necessary evil for now ****
+    // These dependencies are needed for the classes contain in
+    // the *debug* source-sets folder for com.nochino.support.androidui.testing
+    // These dependencies must be referenced as a normal
+    // implementations,  but FOR DEBUG BUILDS ONLY. Using these in release
+    // builds that are obfuscated with ProGuard will cause build failures!
+    // TODO :: Create module solely for instrumentation tests -->
+    // --> See https://developer.android.com/studio/test/#use_separate_test_modules_for_instrumented_tests
+    debugImplementation 'androidx.test:rules:1.1.1'
+    debugImplementation 'androidx.test:runner:1.1.1'
+    debugImplementation 'androidx.test:core-ktx:1.1.0'
+    debugImplementation 'androidx.test.ext:junit:1.1.0'
+    debugImplementation 'androidx.test.ext:junit-ktx:1.1.0'
+    debugImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    debugImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
 
     // --> Android Support / UI
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              // ViewModel / LiveData
