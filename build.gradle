@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion rootProject.ext.configs.compileSdkVersion
+    buildToolsVersion rootProject.ext.configs.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.configs.minSdkVersion
+        targetSdkVersion rootProject.ext.configs.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,47 +63,51 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // --> Testing
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
-    api 'androidx.test.espresso:espresso-idling-resource:3.1.1'                         // Note...uses api not testApi!
+    testImplementation "junit:junit:$libs.junitVersion"
+    androidTestImplementation "androidx.test:rules:$libs.rulesVersion"
+    androidTestImplementation "androidx.test:runner:$libs.runnerVersion"
+    androidTestImplementation "androidx.test.ext:junit:$libs.junitAndroidVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$libs.espressoCoreVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$libs.espressoContribVersion"
+    api "androidx.test.espresso:espresso-idling-resource:$libs.espressoIdlingResourceVersion" // Note...uses api not testApi!
 
     // **** The following are not duplicates, but rather a necessary evil for now ****
-    // These dependencies are needed for the classes contain in
+    // These dependencies are needed for the classes contained in
     // the *debug* source-sets folder for com.nochino.support.androidui.testing
     // These dependencies must be referenced as a normal
-    // implementations,  but FOR DEBUG BUILDS ONLY. Using these in release
-    // builds that are obfuscated with ProGuard will cause build failures!
+    // implementations, but FOR DEBUG BUILDS ONLY. Using these in release pro-guard
+    // obfuscated builds will cause build failures!
     // TODO :: Create module solely for instrumentation tests -->
     // --> See https://developer.android.com/studio/test/#use_separate_test_modules_for_instrumented_tests
-    debugImplementation 'androidx.test:rules:1.1.1'
-    debugImplementation 'androidx.test:runner:1.1.1'
-    debugImplementation 'androidx.test:core-ktx:1.1.0'
-    debugImplementation 'androidx.test.ext:junit:1.1.0'
-    debugImplementation 'androidx.test.ext:junit-ktx:1.1.0'
-    debugImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    debugImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
+    debugApi "androidx.test:rules:$libs.rulesVersion"
+    debugApi "androidx.test:runner:$libs.runnerVersion"
+    debugApi "androidx.test:core-ktx:$libs.coreKtxVersion"
+    debugApi "androidx.test.ext:junit:$libs.junitAndroidVersion"
+    debugApi "androidx.test.ext:junit-ktx:$libs.junitKtxVersion"
+    debugApi "androidx.test.espresso:espresso-core:$libs.espressoCoreVersion"
+    debugApi "androidx.test.espresso:espresso-contrib:$libs.espressoContribVersion"
 
     // --> Android Support / UI
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'              // ViewModel / LiveData
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.cardview:cardview:1.0.0'
+    api "androidx.cardview:cardview:$libs.cardviewVersion"
+    api "androidx.appcompat:appcompat:$libs.appcompatVersion"
+    api "androidx.recyclerview:recyclerview:$libs.recyclerviewVersion"
+    api "com.google.android.material:material:$libs.googleMaterialVersion"
+    api "androidx.legacy:legacy-support-v4:$libs.legacySupportV4Version"
+    api "androidx.lifecycle:lifecycle-extensions:$libs.lifecycleExtensionsVersion"    // ViewModel / LiveData
+    api "androidx.constraintlayout:constraintlayout:$libs.constraintLayoutVersion"
 
-    // --> Navigation
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09'
+    // --> Android Architecture
+    api "android.arch.navigation:navigation-ui-ktx:$libs.navUiKtxVersion"
+    api "android.arch.navigation:navigation-fragment-ktx:$libs.navFragmentKtxVersion"
 
     // --> Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$libs.kotlinVersion"
 
     // --> Square / Jake Wharton
-    implementation 'com.squareup.picasso:picasso:2.71828'                               // Image Loading
-    implementation 'com.jakewharton.timber:timber:4.7.1'                                // Enhanced Logging
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'              // Detecting Memory Leaks
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'      // Detecting Memory Leaks
+    implementation "com.squareup.picasso:picasso:$libs.picassoVersion"                // Image Loading
+    api "com.jakewharton.timber:timber:$libs.timberVersion"                           // Enhanced Logging
+
+    // --> Detecting Memory Leaks
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$libs.leakcanaryAndroidVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$libs.leakcanaryAndroidVersion"
 }
