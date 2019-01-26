@@ -55,18 +55,16 @@ class NetworkImageView: ImageView {
         this.networkImageUrl?.let { loadNetworkImage(it, target) }
     }
 
-    private fun loadRequest(networkImageUrl: String?): RequestCreator {
+    private fun loadRequest(networkImageUrl: String?): RequestCreator? {
 
         // Cancel any previous request (useful in AdapterView's that recycle views)
         cancelPreviousRequest(this.networkImageUrl)
 
         this.networkImageUrl = networkImageUrl
 
-        this.currentRequest = networkImageUrl?.let { picasso.load(networkImageUrl).tag(it) }
+        currentRequest = networkImageUrl?.let { picasso.load(networkImageUrl).tag(it) }
 
-        this.currentRequest?.let {
-            return it
-        }
+        return currentRequest
     }
 
     private fun cancelPreviousRequest(tag: String?) {
