@@ -2,6 +2,9 @@ package com.nochino.support.androidui.views
 
 import timber.log.Timber
 
+/**
+ * Class which can modify segments in a String
+ */
 class PathSegmentModifier(private val url: String?, private val pathSegments: Map<String, String>) {
 
     // Defines the path segments in a URL that can be replaced

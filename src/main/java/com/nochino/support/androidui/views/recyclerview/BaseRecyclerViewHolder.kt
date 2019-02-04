@@ -3,9 +3,8 @@ package com.nochino.support.androidui.views.recyclerview
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-
-abstract class BaseViewHolder<T, L : BaseRecyclerViewClickListener<T>>
-    (itemView: View) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder<T, L : BaseRecyclerViewClickListener<T>>(itemView: View) :
+    RecyclerView.ViewHolder(itemView) {
 
     /**
      * Bind data to the item and set listener if needed.

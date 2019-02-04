@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
 
-
 /**
  * Base generic RecyclerView adapter.
  * Handles basic logic such as adding/removing items, setting listener, binding ViewHolders.
  * Extend the adapter for appropriate use case.
  *
- * @param <T>  type of objects, which will be used in the adapter's dataset
+ * @param <T>  type of objects, which will be used in the adapter's data set
  * @param <L>  click listener [BaseRecyclerViewClickListener]
  * @param <VH> ViewHolder [BaseViewHolder]
  */
+@Suppress("unused")
 abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, VH : BaseViewHolder<T, L>>
     /**
      * Base constructor.
@@ -171,19 +171,6 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
             notifyItemRemoved(position)
         }
     }
-
-    /**
-     * Indicates whether each item in the data set can be represented with a unique identifier
-     * of type [Long].
-     *
-     * @param hasStableIds Whether items in data set have unique identifiers or not.
-     * @see .hasStableIds
-     * @see .getItemId
-     */
-    override fun setHasStableIds(hasStableIds: Boolean) {
-        super.setHasStableIds(hasStableIds)
-    }
-
 
     /**
      * Set click listener, which must extend [BaseRecyclerViewClickListener]
