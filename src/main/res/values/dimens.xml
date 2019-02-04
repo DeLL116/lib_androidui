@@ -3,4 +3,11 @@
 
     <dimen name="img_square_dimen">100dp</dimen>
 
+    <!--> Error Fragment -->
+    <dimen name="error_fragment_image_max_height">175dp</dimen>
+    <dimen name="error_fragment_message_max_width">300dp</dimen>
+    <dimen name="error_fragment_spinner_size">40dp</dimen>
+    <dimen name="error_fragment_under_image_baseline_margin">36dp</dimen>
+    <dimen name="error_fragment_under_message_baseline_margin">24dp</dimen>
+
 </resources>

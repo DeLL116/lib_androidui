@@ -65,20 +65,24 @@ dependencies {
     api project(':lib_RetroNetworking')
 
     // --> Testing
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     testImplementation "junit:junit:$libs.junitVersion"
     androidTestImplementation "androidx.test:rules:$libs.rulesVersion"
     androidTestImplementation "androidx.test:runner:$libs.runnerVersion"
     androidTestImplementation "androidx.test.ext:junit:$libs.junitAndroidVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$libs.espressoCoreVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$libs.espressoContribVersion"
-    api "androidx.test.espresso:espresso-idling-resource:$libs.espressoIdlingResourceVersion" // Note...uses api not testApi!
+    api "androidx.test.espresso:espresso-idling-resource:$libs.espressoIdlingResourceVersion"
+    // Note...uses api not testApi!
 
     // **** The following are not duplicates, but rather a necessary evil for now ****
     // These dependencies are needed for the classes contained in
     // the *debug* source-sets folder for com.nochino.support.androidui.testing
     // These dependencies must be referenced as a normal
-    // implementations, but FOR DEBUG BUILDS ONLY. Using these in release pro-guard
-    // obfuscated builds will cause build failures!
+    // implementations, but FOR DEBUG BUILDS ONLY. Build failures will occur in proguard
+    // obfuscated release builds if these are used (hence...use of debugApi)!
     // TODO :: Create module solely for instrumentation tests -->
     // --> See https://developer.android.com/studio/test/#use_separate_test_modules_for_instrumented_tests
     debugApi "androidx.test:rules:$libs.rulesVersion"
@@ -104,6 +108,7 @@ dependencies {
 
     // --> Kotlin
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$libs.kotlinVersion"
+    api "org.jetbrains.kotlin:kotlin-reflect:$libs.kotlinVersion"
 
     // --> Square / Jake Wharton
     implementation "com.squareup.picasso:picasso:$libs.picassoVersion"                // Image Loading

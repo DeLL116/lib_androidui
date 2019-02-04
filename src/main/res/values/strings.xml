@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">lib_app_name</string>
     <string name="app_desc">lib_app_desc</string>
+
+    <!-- Error Fragment -->
+    <string name="error_fragment_message">Error</string>
+    <string name="error_fragment_retry">Retry</string>
+
 </resources>

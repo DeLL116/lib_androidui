@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/error_frame_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="afterDescendants"
+        android:nextFocusLeft="@id/error_frame_root"
+        android:nextFocusRight="@id/error_frame_root"
+        android:nextFocusUp="@id/error_frame_root"
+        android:nextFocusDown="@id/error_frame_root">
+
+    <ImageView
+            android:id="@+id/error_image"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/error_fragment_image_max_height"
+            android:src="@drawable/ic_sad_cloud"
+            android:layout_gravity="center"
+            android:contentDescription="@string/cont_desc_app_logo"/>
+
+    <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/error_fragment_message"
+            android:maxWidth="@dimen/error_fragment_message_max_width"/>
+
+    <Button
+            android:id="@+id/error_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:text="@string/error_fragment_retry"
+            android:nextFocusLeft="@id/error_action_button"
+            android:nextFocusRight="@id/error_action_button"
+            android:nextFocusUp="@id/error_action_button"
+            android:nextFocusDown="@id/error_action_button"
+            style="?android:attr/buttonStyle"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
