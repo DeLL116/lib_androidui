@@ -50,6 +50,7 @@ abstract class BaseObserverFragment<D, VM : LoadingResourceViewModel<D>> :
     LoadingResourcePresenterView<D>,
     LoadingResourceViewModelCreator<D, VM> {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     lateinit var loadingResourcePresenter: LoadingResourcePresenter<D>
 
     override fun createViewModelClass(arguments: Bundle?): Class<VM>? {
@@ -94,12 +95,19 @@ abstract class BaseObserverFragment<D, VM : LoadingResourceViewModel<D>> :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        fetchAndObserve()
+    }
 
+    /**
+     * Calls on the [loadingResourceViewModel] to fetch and observe its data
+     * @param ignoreCache True to explicitly ignore any cache for the data
+     */
+    fun fetchAndObserve(ignoreCache: Boolean = false) {
         // Set the observer on ViewModel's LiveData. This Observer will be
         // notified when the underlying data in the ViewModel has changed.
         // Note...currently this must be fetched in onActivityCreated for
         // some tests to pass (CountingIdlingResource increment/decrement)
-        loadingResourceViewModel?.fetchLiveData()?.apply {
+        loadingResourceViewModel?.fetchLiveData(ignoreCache)?.apply {
             CountingIdlingResourceViewModelFactory
                 .getFragmentViewModel(this@BaseObserverFragment)
                 .incrementTestIdleResourceCounter()
