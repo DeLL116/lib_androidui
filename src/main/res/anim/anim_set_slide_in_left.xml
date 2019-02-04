@@ -16,7 +16,7 @@
   -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-     android:duration="@integer/anim_duration_frag">
+     android:duration="@integer/anim_duration_frag_ms">
 
     <translate android:fromXDelta="-100%" android:toXDelta="0%"
                android:fromYDelta="0%" android:toYDelta="0%"/>
