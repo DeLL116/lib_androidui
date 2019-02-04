@@ -116,16 +116,12 @@ abstract class BaseObserverFragment<D, VM : LoadingResourceViewModel<D>> :
             t?.loadingStatus ?: "NoData" // Elvis to log "NoData" if no data can be found
         )
 
-        // Invoke the appropriate presenter method
+        // Invoke the appropriate presenter-view method
         when {
             t?.loadingStatus == LoadingStatus.LOADING -> loadingResourcePresenter.onLoading(t)
             t?.loadingStatus == LoadingStatus.SUCCESS -> loadingResourcePresenter.onSuccess(t)
             t?.loadingStatus == LoadingStatus.ERROR -> loadingResourcePresenter.onError(t)
         }
-
-        CountingIdlingResourceViewModelFactory
-            .getFragmentViewModel(this)
-            .decrementIdleResourceCounter()
     }
 
     override fun showError(loadingResource: LoadingResource<D>) {
