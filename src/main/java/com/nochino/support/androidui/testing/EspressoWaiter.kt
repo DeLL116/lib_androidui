@@ -22,6 +22,7 @@ package com.nochino.support.androidui.testing
  *  }).waitForIt()
  *
  */
+@Suppress("unused")
 class EspressoWaiter(private val mCondition: Condition) {
 
     companion object {
