@@ -64,11 +64,14 @@ dependencies {
 
     api project(':lib_RetroNetworking')
 
-    // --> Testing
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    // --> Local Unit Testing
     testImplementation "junit:junit:$libs.junitVersion"
+    testImplementation "org.mockito:mockito-all:$libs.mockitoAllVersion"
+    testImplementation "org.hamcrest:hamcrest-all:$libs.hamcrestAllVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$libs.powermockModuleJunit4Version"
+    testImplementation "org.powermock:powermock-api-mockito:$libs.powermockApiMockitoVersion"
+
+    // --> Implementation / Espresso Testing
     androidTestImplementation "androidx.test:rules:$libs.rulesVersion"
     androidTestImplementation "androidx.test:runner:$libs.runnerVersion"
     androidTestImplementation "androidx.test.ext:junit:$libs.junitAndroidVersion"
@@ -99,8 +102,11 @@ dependencies {
     api "androidx.recyclerview:recyclerview:$libs.recyclerviewVersion"
     api "com.google.android.material:material:$libs.googleMaterialVersion"
     api "androidx.legacy:legacy-support-v4:$libs.legacySupportV4Version"
-    api "androidx.lifecycle:lifecycle-extensions:$libs.lifecycleExtensionsVersion"    // ViewModel / LiveData
     api "androidx.constraintlayout:constraintlayout:$libs.constraintLayoutVersion"
+
+    // ViewModel / LiveData
+    api "androidx.lifecycle:lifecycle-extensions:$libs.lifecycleExtensionsVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$libs.lifecycleViewModelKtxVersion"
 
     // --> Android Architecture
     api "android.arch.navigation:navigation-ui-ktx:$libs.navUiKtxVersion"

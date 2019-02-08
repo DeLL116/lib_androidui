@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider.Factory
 import com.nochino.support.androidui.testing.CountingIdlingResourceViewModelFactory
-import com.nochino.support.networking.presenter.LoadingResourcePresenter
-import com.nochino.support.networking.presenter.LoadingResourcePresenterView
+import com.nochino.support.networking.presenter.LoadingResourceContract
+import com.nochino.support.networking.vo.LoadingResourcePresenter
 import com.nochino.support.networking.vo.LoadingResource
 import com.nochino.support.networking.vo.LoadingResourceViewModel
 import com.nochino.support.networking.vo.LoadingResourceViewModelCreator
@@ -19,7 +20,7 @@ import timber.log.Timber
  * provide error handling when fetching the data fails.
  *
  * Subclasses are required to provide means for this fragment to create the [loadingResourceViewModel]
- * instance. They have a few options to doing so :
+ * instance. They have a few options to do so :
  *
  *  - Override the [loadingResourceViewModelClass] property and return the *Class* object of
  * the [LoadingResourceViewModel] being observed.
@@ -47,7 +48,7 @@ import timber.log.Timber
 abstract class BaseObserverFragment<D, VM : LoadingResourceViewModel<D>> :
     BaseFragment(),
     Observer<LoadingResource<D>>,
-    LoadingResourcePresenterView<D>,
+    LoadingResourceContract.View<D>,
     LoadingResourceViewModelCreator<D, VM> {
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -115,20 +116,28 @@ abstract class BaseObserverFragment<D, VM : LoadingResourceViewModel<D>> :
     }
 
     @CallSuper
-    override fun onChanged(t: LoadingResource<D>?) {
+    override fun onChanged(loadingResource: LoadingResource<D>) {
         // Log the change
         Timber.d("%s :: LoadingResource in [%s] of data type [%s] changed with status [%s]",
             "onChanged()",
             javaClass.simpleName,
             getGenericTypeClassName(0),
-            t?.loadingStatus ?: "NoData" // Elvis to log "NoData" if no data can be found
+            loadingResource.loadingStatus
         )
 
         // Invoke the appropriate presenter-view method
         when {
-            t?.loadingStatus == LoadingStatus.LOADING -> loadingResourcePresenter.onLoading(t)
-            t?.loadingStatus == LoadingStatus.SUCCESS -> loadingResourcePresenter.onSuccess(t)
-            t?.loadingStatus == LoadingStatus.ERROR -> loadingResourcePresenter.onError(t)
+            loadingResource.loadingStatus == LoadingStatus.LOADING ->
+                // Note explicit non-null !! used on loadingResourceViewModel because,
+                // for this (the observer onChanged) method to even be invoked, the ViewModel
+                // must have been instantiated. NPEs here would indicate a serious problem.
+                loadingResourcePresenter.fetchLoadingResource(loadingResource, loadingResourceViewModel!!)
+
+            loadingResource.loadingStatus == LoadingStatus.SUCCESS ->
+                loadingResourcePresenter.displaySuccess(loadingResource)
+
+            loadingResource.loadingStatus == LoadingStatus.ERROR ->
+                loadingResourcePresenter.displayError(loadingResource)
         }
     }
 
