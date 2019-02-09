@@ -62,7 +62,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api project(':lib_RetroNetworking')
+    api project(':lib_retronetworking')
 
     // --> Local Unit Testing
     testImplementation "junit:junit:$libs.junitVersion"
