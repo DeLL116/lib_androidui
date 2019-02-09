@@ -88,9 +88,9 @@ dependencies {
     // obfuscated release builds if these are used (hence...use of debugApi)!
     // TODO :: Create module solely for instrumentation tests -->
     // --> See https://developer.android.com/studio/test/#use_separate_test_modules_for_instrumented_tests
-    debugApi "androidx.test:rules:$libs.rulesVersion"
-    debugApi "androidx.test:runner:$libs.runnerVersion"
-    debugApi "androidx.test:core-ktx:$libs.coreKtxVersion"
+    debugApi "androidx.test:rules:$libs.testRulesVersion"
+    debugApi "androidx.test:runner:$libs.testRunnerVersion"
+    debugApi "androidx.test:core-ktx:$libs.testCoreKtxVersion"
     debugApi "androidx.test.ext:junit:$libs.junitAndroidVersion"
     debugApi "androidx.test.ext:junit-ktx:$libs.junitKtxVersion"
     debugApi "androidx.test.espresso:espresso-core:$libs.espressoCoreVersion"
