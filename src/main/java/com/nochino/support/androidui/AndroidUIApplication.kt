@@ -2,12 +2,14 @@ package com.nochino.support.androidui
 
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
+import timber.log.Timber
 
 abstract class AndroidUIApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
         initLeakCanary()
+        initTimber()
     }
 
     /**
@@ -21,5 +23,10 @@ abstract class AndroidUIApplication: Application() {
             return
         }
         LeakCanary.install(this)
+    }
+
+    private fun initTimber() {
+        // TODO :: WIP :: Create Crash Reporting Tree
+        Timber.plant(Timber.DebugTree())
     }
 }
