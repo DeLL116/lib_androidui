@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Progress Bar Drawable that is drawn vertically. This is basically a copy of
+    progress_horizontal_material from the Android SDK's drawable, but modified
+    to draw vertically instead of horizontally.
+-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/background">
+        <shape android:shape="rectangle"
+               android:tint="?colorControlNormal">
+            <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
+            <size android:width="@dimen/vertical_progress_bar_width" />
+            <solid android:color="@color/white_disabled_progress" />
+        </shape>
+    </item>
+
+    <item android:id="@+id/secondaryProgress">
+        <clip android:clipOrientation="vertical" android:gravity="bottom">
+            <shape android:shape="rectangle" android:tint="?colorControlActivated">
+                <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
+                <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
+                <size android:width="@dimen/vertical_progress_bar_width" />
+                <solid android:color="@color/white_disabled_progress" />
+            </shape>
+        </clip>
+    </item>
+
+    <item android:id="@+id/progress">
+        <clip android:clipOrientation="vertical" android:gravity="bottom">
+            <shape android:shape="rectangle" android:tint="?colorControlActivated">
+                <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
+                <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
+                <size android:width="@dimen/vertical_progress_bar_width" />
+                <solid android:color="@android:color/white" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

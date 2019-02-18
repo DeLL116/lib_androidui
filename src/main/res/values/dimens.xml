@@ -13,4 +13,8 @@
     <dimen name="error_fragment_under_image_baseline_margin">36dp</dimen>
     <dimen name="error_fragment_under_message_baseline_margin">24dp</dimen>
 
+    <!-- Vertical Progress Bar -->
+    <dimen name="vertical_progress_bar_width">4dp</dimen>
+    <dimen name="vertical_progress_bar_corner_radius">10dp</dimen>
+
 </resources>

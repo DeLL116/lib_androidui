@@ -28,7 +28,14 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      */
     (context: Context) : RecyclerView.Adapter<VH>() {
 
-    private val items: MutableList<T>?
+    /**
+     * Secondary constructor which allows passing data immediately
+     */
+    constructor(context: Context, data: MutableList<T>) : this(context) {
+        setItems(data)
+    }
+
+    val items: MutableList<T>
     private var listener: L? = null
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -58,13 +65,36 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
     }
 
     /**
-     * To be implemented in as specific adapter
+     * Base method for creating the adapter's ViewHolder.
+     * Implementations should override [getViewHolder] to return an instance
+     * of [BaseViewHolder]
      *
      * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      */
-    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val holder = getViewHolder(parent, viewType)
+        onViewHolderCreated(parent, holder)
+        return holder
+    }
+
+    /**
+     * Must be implemented by subclasses to create an instance of
+     * [BaseViewHolder]
+     *
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
+    abstract fun getViewHolder(parent: ViewGroup, viewType: Int): VH
+
+    /**
+     * Called after a [BaseViewHolder] is created. Implementing classes
+     * may override if something must be done immediately after a
+     * [BaseViewHolder] is created (like modifying layout params...etc)
+     */
+    open fun onViewHolderCreated(parent: ViewGroup, holder : VH){}
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
@@ -76,7 +106,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = items!![position]
+        val item = items[position]
         holder.onBind(item, listener)
     }
 
@@ -86,7 +116,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return items?.size ?: 0
+        return items.size
     }
 
     /**
@@ -99,18 +129,9 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
         if (items == null) {
             throw IllegalArgumentException("Cannot set `null` item to the Recycler adapter")
         }
-        this.items!!.clear()
+        this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
-    }
-
-    /**
-     * Returns all items from the data set held by the adapter.
-     *
-     * @return All of items in this adapter.
-     */
-    fun getItems(): List<T>? {
-        return items
     }
 
     /**
@@ -119,7 +140,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      * @return All of items in this adapter.
      */
     fun getItem(position: Int): T {
-        return items!![position]
+        return items[position]
     }
 
     /**
@@ -132,7 +153,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
         if (item == null) {
             throw IllegalArgumentException("Cannot add null item to the Recycler adapter")
         }
-        items!!.add(item)
+        items.add(item)
         notifyItemInserted(items.size - 1)
     }
 
@@ -146,7 +167,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
         if (items == null) {
             throw IllegalArgumentException("Cannot add `null` items to the Recycler adapter")
         }
-        this.items!!.addAll(items)
+        this.items.addAll(items)
         notifyItemRangeInserted(this.items.size - items.size, items.size)
     }
 
@@ -154,7 +175,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      * Clears all the items in the adapter.
      */
     fun clear() {
-        items!!.clear()
+        items.clear()
         notifyDataSetChanged()
     }
 
@@ -165,7 +186,7 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
      * @param item to be removed
      */
     fun remove(item: T) {
-        val position = items!!.indexOf(item)
+        val position = items.indexOf(item)
         if (position > -1) {
             items.removeAt(position)
             notifyItemRemoved(position)

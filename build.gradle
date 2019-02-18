@@ -77,8 +77,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$libs.junitAndroidVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$libs.espressoCoreVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$libs.espressoContribVersion"
-    api "androidx.test.espresso:espresso-idling-resource:$libs.espressoIdlingResourceVersion"
-    // Note...uses api not testApi!
+    api "androidx.test.espresso:espresso-idling-resource:$libs.espressoIdlingResourceVersion"           // Note...uses api not testApi!
 
     // **** The following are not duplicates, but rather a necessary evil for now ****
     // These dependencies are needed for the classes contained in
@@ -117,8 +116,10 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$libs.kotlinVersion"
 
     // --> Square / Jake Wharton
-    implementation "com.squareup.picasso:picasso:$libs.picassoVersion"                // Image Loading
-    api "com.jakewharton.timber:timber:$libs.timberVersion"                           // Enhanced Logging
+    // Image Loading
+    implementation "com.squareup.picasso:picasso:$libs.picassoVersion"
+    // Enhanced Logging
+    api "com.jakewharton.timber:timber:$libs.timberVersion"
 
     // --> Detecting Memory Leaks
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$libs.leakcanaryAndroidVersion"

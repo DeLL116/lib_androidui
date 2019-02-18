@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Custom Progress Bar that is vertically drawn and determinate -->
+    <style name="Widget.AndroidUiLib.ProgressBar.Vertical" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_bar_vertical</item>
+        <item name="android:indeterminate">false</item>
+    </style>
+
+</resources>
