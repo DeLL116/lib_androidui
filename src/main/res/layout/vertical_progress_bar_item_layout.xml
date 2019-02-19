@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:id="@+id/rv_vertical_progress_bar_layout_container"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:layout_height="match_parent">
 
     <ProgressBar
             style="@style/Widget.AndroidUiLib.ProgressBar.Vertical"
