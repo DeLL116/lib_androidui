@@ -9,32 +9,45 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@android:id/background">
-        <shape android:shape="rectangle"
-               android:tint="?colorControlNormal">
+        <shape android:shape="rectangle" android:tint="?colorControlNormal">
             <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
             <size android:width="@dimen/vertical_progress_bar_width" />
             <solid android:color="@color/white_disabled_progress" />
         </shape>
     </item>
 
-    <item android:id="@android:id/secondaryProgress">
+    <!--
+        Note...insets are used instead of padding because I could not for the life of me figure out
+        how to clear the padding on this Drawable programmatically.
+    -->
+    <item android:id="@android:id/secondaryProgress"
+          android:left="1dp"
+          android:top="1dp"
+          android:right="1dp"
+          android:bottom="1dp">
         <clip android:clipOrientation="vertical" android:gravity="bottom">
             <shape android:shape="rectangle" android:tint="?colorControlActivated">
-                <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
-                <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
-                <size android:width="@dimen/vertical_progress_bar_width" />
-                <solid android:color="@color/white_disabled_progress" />
+                <corners android:radius="@dimen/vertical_progress_bar_corner_radius"/>
+                <size android:width="@dimen/vertical_progress_bar_width"/>
+                <solid android:color="@color/white_disabled_progress"/>
             </shape>
         </clip>
     </item>
 
-    <item android:id="@android:id/progress">
+    <!--
+        Note...insets are used instead of padding because I could not for the life of me figure out
+        how to clear the padding on this Drawable programmatically.
+    -->
+    <item android:id="@android:id/progress"
+          android:left="1dp"
+          android:top="1dp"
+          android:right="1dp"
+          android:bottom="1dp">
         <clip android:clipOrientation="vertical" android:gravity="bottom">
             <shape android:shape="rectangle" android:tint="?colorControlActivated">
-                <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
-                <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
-                <size android:width="@dimen/vertical_progress_bar_width" />
-                <solid android:color="@android:color/white" />
+                <corners android:radius="@dimen/vertical_progress_bar_corner_radius"/>
+                <size android:width="@dimen/vertical_progress_bar_width"/>
+                <solid android:color="@android:color/white"/>
             </shape>
         </clip>
     </item>

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nochino.support.androidui.views.recyclerview.BaseRecyclerViewClickListener
 import com.nochino.support.androidui.views.recyclerview.BaseViewHolder
@@ -191,6 +192,28 @@ abstract class BaseRecyclerViewAdapter<T, L : BaseRecyclerViewClickListener<T>, 
             items.removeAt(position)
             notifyItemRemoved(position)
         }
+    }
+
+    /**
+     * Moves an item in the data set and notifies that the item has been moved
+     */
+    fun move(item: T, from: Int, to: Int) {
+        items.removeAt(from)
+        items.add(to, item)
+        notifyItemMoved(from, to)
+    }
+
+    /**
+     * Provides a way to update the adapter's data in bulk without
+     * having to call [notifyDataSetChanged]. Via the provided
+     * [diffUtil], updates will only be dispatched to the views
+     * are found to have changed.
+     */
+    fun update(items: List<T>, diffUtil: BaseRecyclerViewDiffUtil<T>) {
+        val diffResult = DiffUtil.calculateDiff(diffUtil, true)
+        this.items.clear()
+        this.items.addAll(items)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     /**

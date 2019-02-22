@@ -3,14 +3,16 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:id="@+id/rv_vertical_progress_bar_layout_container"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+             android:clickable="true"
+             android:focusable="true"
+             android:foreground="?selectableItemBackground">
 
     <ProgressBar
             style="@style/Widget.AndroidUiLib.ProgressBar.Vertical"
             android:id="@+id/rv_vertical_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="?attr/selectableItemBackground"
             tools:progress="45"/>
 
 </FrameLayout>

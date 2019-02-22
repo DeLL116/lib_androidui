@@ -10,7 +10,7 @@ import timber.log.Timber
 /**
  * Defines the dimension axis to use for the view.
  */
-enum class DistributionAxis {
+enum class ScaleAxis {
     /**
      * The X (horizontal) axis
      */
@@ -25,13 +25,13 @@ enum class DistributionAxis {
  * An adapter that basically defeats the purpose of a RecyclerView by attempting to
  * scale each item view's size so all of them are visible and fit into the size of the containing view.
  * @param context Context used for layout inflation and view creation
- * @param distributionAxis The axis on which view size scaling and distribution will occur.  See [DistributionAxis]
+ * @param scaleAxis The axis on which view size scaling and distribution will occur.  See [ScaleAxis]
  * @param totalDistributionSizePixels The size in pixels available to draw all of the recycler views items
  * @param dataList The data
  */
 abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T>, VH : BaseViewHolder<T, L>>(
     context: Context,
-    private val distributionAxis: DistributionAxis,
+    val scaleAxis: ScaleAxis,
     private val totalDistributionSizePixels: Int,
     dataList: MutableList<T>
 ) : BaseRecyclerViewAdapter<
@@ -48,23 +48,30 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
         return@lazy averageSize
     }
 
-    /** The number of remaining pixels left on the screen after calculating the [averagedItemSize] **/
+    /**
+     * The number of remaining pixels left on the screen after calculating the [averagedItemSize] that each
+     * RecyclerView item will be.
+     */
     private var totalRemainderPixels = totalDistributionSizePixels % items.size
 
-    /** The data position used to calculate the remaining pixel distribution **/
-    private var distributionPosition = 0
+    /**
+     * Keeps track of the data position used to calculate distribution ratio per item.
+     * Needed by [remainderPixelsDistribution] to dynamically calculate how many pixels
+     * are left to be distributed amongst the remaining RecyclerView item views.
+     */
+    private var currentDistributionPosition = 0
 
     /**
-     * The value by which the remaining pixels will be distributed amongst the remaining
-     * values in the data set based on the current position and remaining pixels left to
-     * distribute
+     * The remaining pixels left to be distributed among each remaining RecyclerView item view.
+     * A value of .25 means that for every 4th item, 1 pixel is added. This value can (and will)
+     * change as [totalRemainderPixels] are distributed amongst the RecyclerView item views.
      */
     private val remainderPixelsDistribution: Double
         get() {
             return if (totalRemainderPixels == 0) {
                 0.toDouble()
             } else {
-                totalRemainderPixels / (items.size.toDouble() - distributionPosition)
+                totalRemainderPixels / (items.size.toDouble() - currentDistributionPosition)
             }
         }
 
@@ -80,7 +87,7 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
     override fun onViewHolderCreated(parent: ViewGroup, holder: BaseViewHolder<T, BaseRecyclerViewClickListener<T>>) {
         // Set the sizes of the item view so it's scaled to allow all RecyclerView
         // items to be visible in the RecyclerView
-        setScaleDistributionViewSize(averagedItemSize, holder.itemView, distributionAxis)
+        setScaleDistributionViewSize(averagedItemSize, holder.itemView, scaleAxis)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T, BaseRecyclerViewClickListener<T>>, position: Int) {
@@ -97,8 +104,16 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
         scaleItemView(holder.itemView, position)
     }
 
-    private fun isScalable(containerViewSize: Int, totalRemainderPixels: Int): Boolean {
-        return containerViewSize > totalRemainderPixels
+    /**
+     * @return True if the total number of items can be scaled to fit the available
+     * space in the [totalDistributionSizePixels].
+     * For example : totalDistributionSize = 1080 // itemCount == 1080
+     * --> True...each RecyclerView item will be scaled to be 1 pixel in size on the [scaleAxis]
+     */
+    private fun isScalable(): Boolean {
+        return totalDistributionSizePixels >= itemCount
+                && totalRemainderPixels > 0
+                && remainderPixelsDistribution != 0.0
     }
 
     /**
@@ -109,11 +124,9 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
         // Add pixels to the item view until the remainder pixels has reached 0.
         // This ensures every list item fits in the display if the total items to
         // view dimension ratio isn't 1:1
-        if (isScalable(totalDistributionSizePixels, totalRemainderPixels)
-            && totalRemainderPixels > 0
-            && remainderPixelsDistribution != 0.0) {
+        if (isScalable()) {
 
-            distributionPosition = position
+            currentDistributionPosition = position
 
             // Keep track of the current distribution count. Only until the
             // runningDistributionCount reaches a whole number will the item
@@ -126,8 +139,8 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
                 // Once the distribution count has reached a whole
                 // number the current position's view size should be increased on the distribution axis
 
-                val newSize = getScaleDistributionViewSize(itemView, distributionAxis) + 1
-                setScaleDistributionViewSize(newSize, itemView, distributionAxis)
+                val newSize = getScaleDistributionViewSize(itemView, scaleAxis) + 1
+                setScaleDistributionViewSize(newSize, itemView, scaleAxis)
 
                 // Decrement the remaining pixels left for distribution
                 totalRemainderPixels --
@@ -135,50 +148,61 @@ abstract class DistributedItemSizeAdapter<T, L : BaseRecyclerViewClickListener<T
                 // Recalculate the running total distribution (see get method of remainderPixelsDistribution!)
                 runningDistributionCount = remainderPixelsDistribution
 
-                Timber.w("Modded view size on axis [${distributionAxis.name}] at position [$position] with 1 more pixel!")
+                Timber.w("Modded view size on axis [${scaleAxis.name}] at position [$position] with 1 more pixel!")
                 Timber.w("Remaining pixels left to distribute [$totalRemainderPixels]")
                 Timber.w("Running distribution total [$runningDistributionCount]")
             }
+
+            // If this is the last position and there's still some leftover pixels....just add them to the last item
+            if (position == items.size - 1) {
+                Timber.i("Finished...Total Remainder Pixels [$totalRemainderPixels]") // <- Should be close to 0 by now!
+
+                if (totalRemainderPixels > 0) {
+                    Timber.d("There are leftover pixels! Adding [%s] pixels to the size of the last item view's [%s] axis!",
+                        totalRemainderPixels,
+                        scaleAxis.name
+                    )
+
+                    setScaleDistributionViewSize(
+                        getScaleDistributionViewSize(itemView, scaleAxis) + (totalRemainderPixels),
+                        itemView,
+                        scaleAxis
+                    )
+                }
+            }
         }
 
-        currentCumTotalItemsSize += getScaleDistributionViewSize(itemView, distributionAxis)
+        currentCumTotalItemsSize += getScaleDistributionViewSize(itemView, scaleAxis)
 
         Timber.d("Current cumulative item size in pixels [$currentCumTotalItemsSize] ")
+    }
 
-        // If this is the last position and there's still some leftover pixels....just add them to the last item
-        if (position == items.size - 1) {
-            Timber.i("Finished...Total Remainder Pixels [$totalRemainderPixels]") // <- Should be close to 0 by now!
+    /**
+     * Sets the new size of the [view] according to the provided [scaleAxis]
+     */
+    private fun setScaleDistributionViewSize(sizePixel: Int, view: View, scaleAxis: ScaleAxis) {
+        var scaled = false
+        when (scaleAxis) {
+            ScaleAxis.X -> view.layoutParams.width = sizePixel.also { scaled = true }
+            ScaleAxis.Y -> view.layoutParams.height = sizePixel.also { scaled = true }
+        }
 
-            if (totalRemainderPixels > 0) {
-                Timber.d("There are leftover pixels! Adding [%s] pixels to the size of the last item view's [%s] axis!",
-                    totalRemainderPixels,
-                    distributionAxis.name
-                )
-
-                setScaleDistributionViewSize(
-                    getScaleDistributionViewSize(itemView, distributionAxis) + (totalRemainderPixels),
-                    itemView,
-                    distributionAxis
-                )
-            }
+        if (scaled) {
+            onViewScaled(view)
         }
     }
 
     /**
-     * Sets the new size of the [view] according to the provided [distributionAxis]
+     * @return The current size of the [view] according to the provided [scaleAxis]
      */
-    private fun setScaleDistributionViewSize(sizePixel: Int, view: View, distributionAxis: DistributionAxis) =
-        when (distributionAxis) {
-            DistributionAxis.X -> view.layoutParams.width = sizePixel
-            DistributionAxis.Y -> view.layoutParams.height = sizePixel
+    fun getScaleDistributionViewSize(view: View, scaleAxis: ScaleAxis) =
+        when (scaleAxis) {
+            ScaleAxis.X -> view.layoutParams.width
+            ScaleAxis.Y -> view.layoutParams.height
         }
 
     /**
-     * @return The current size of the [view] according to the provided [distributionAxis]
+     * Invoked after a view has been scaled
      */
-    private fun getScaleDistributionViewSize(view: View, distributionAxis: DistributionAxis) =
-        when (distributionAxis) {
-            DistributionAxis.X -> view.layoutParams.width
-            DistributionAxis.Y -> view.layoutParams.height
-        }
+    abstract fun onViewScaled(view: View)
 }
