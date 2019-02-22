@@ -8,7 +8,7 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/background">
+    <item android:id="@android:id/background">
         <shape android:shape="rectangle"
                android:tint="?colorControlNormal">
             <corners android:radius="@dimen/vertical_progress_bar_corner_radius" />
@@ -17,7 +17,7 @@
         </shape>
     </item>
 
-    <item android:id="@+id/secondaryProgress">
+    <item android:id="@android:id/secondaryProgress">
         <clip android:clipOrientation="vertical" android:gravity="bottom">
             <shape android:shape="rectangle" android:tint="?colorControlActivated">
                 <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
@@ -28,7 +28,7 @@
         </clip>
     </item>
 
-    <item android:id="@+id/progress">
+    <item android:id="@android:id/progress">
         <clip android:clipOrientation="vertical" android:gravity="bottom">
             <shape android:shape="rectangle" android:tint="?colorControlActivated">
                 <padding android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp" />
